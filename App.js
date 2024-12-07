@@ -1,7 +1,7 @@
 import * as React from "react";
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useFonts } from "expo-font";
 import SplashScreen from "./screens/SplashScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -23,7 +23,8 @@ import Details from "./screens/Details";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
 import { AuthProvider } from "./context/authContext";
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from "react-native-vector-icons/Ionicons";
+import { Border } from "./GlobalStyles";
 
 import DeviceStatus from "./screens/connectToRpi/DeviceStatus";
 import AddDevice from "./screens/connectToRpi/AddDevice";
@@ -36,64 +37,67 @@ const Drawer = createDrawerNavigator();
 // Drawer Navigator Configuration
 const DrawerNavigator = () => {
   return (
-<Drawer.Navigator
+    <Drawer.Navigator
       initialRouteName="Home"
       screenOptions={{
-        headerShown: true, 
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: "#F9E2D0",
+        },
         drawerStyle: {
-          backgroundColor: "#F9E2D0", 
+          backgroundColor: "#F9E2D0",
         },
         drawerLabelStyle: {
-          color: "#132A17", 
-          fontFamily: "Poppins-SemiBold", 
-          fontSize: 16, 
+          color: "#132A17",
+          fontFamily: "Poppins-SemiBold",
+          fontSize: 16,
         },
       }}
     >
-      <Drawer.Screen 
-        name="Home" 
-        component={HomeScreen} 
+      <Drawer.Screen
+        name="Home"
+        component={HomeScreen}
         options={{
           drawerIcon: ({ color }) => (
-            <Icon name="home" size={20} color={color} /> 
+            <Icon name="home" size={20} color={color} />
           ),
-        }} 
+        }}
       />
-      <Drawer.Screen 
-        name="Privacy Policy" 
-        component={PrivacyPolicy} 
+      <Drawer.Screen
+        name="Privacy Policy"
+        component={PrivacyPolicy}
         options={{
           drawerIcon: ({ color }) => (
-            <Icon name="shield" size={20} color={color} /> 
+            <Icon name="shield" size={20} color={color} />
           ),
-        }} 
+        }}
       />
-      <Drawer.Screen 
-        name="Terms of Service" 
-        component={TermsOfService} 
+      <Drawer.Screen
+        name="Terms of Service"
+        component={TermsOfService}
         options={{
           drawerIcon: ({ color }) => (
             <Icon name="document-text" size={20} color={color} />
           ),
-        }} 
+        }}
       />
-      <Drawer.Screen 
-        name="Settings" 
-        component={AccountSettingsOption} 
+      <Drawer.Screen
+        name="Settings"
+        component={AccountSettingsOption}
         options={{
           drawerIcon: ({ color }) => (
             <Icon name="cog-outline" size={25} color={color} />
           ),
-        }} 
+        }}
       />
-      <Drawer.Screen 
-        name="Logout" 
-        component={LeftPanel} 
+      <Drawer.Screen
+        name="Logout"
+        component={LeftPanel}
         options={{
           drawerIcon: ({ color }) => (
             <Icon name="enter" size={25} color={color} />
           ),
-        }} 
+        }}
       />
     </Drawer.Navigator>
   );
@@ -127,15 +131,30 @@ const App = () => {
           <Stack.Screen name="HomeScreen" component={DrawerNavigator} />
           <Stack.Screen name="TermsOfService" component={DrawerNavigator} />
           <Stack.Screen name="PrivacyPolicy" component={DrawerNavigator} />
-          <Stack.Screen name="AccountSettingsOption" component={DrawerNavigator} />
+          <Stack.Screen
+            name="AccountSettingsOption"
+            component={DrawerNavigator}
+          />
           <Stack.Screen name="LeftPanel" component={DrawerNavigator} />
 
           {/* Other Screens */}
           <Stack.Screen name="AboutUsScreen" component={AboutUsScreen} />
-          <Stack.Screen name="AboutUsScreenTeam" component={AboutUsScreenTeam} />
-          <Stack.Screen name="AboutUsScreenClient" component={AboutUsScreenClient} />
-          <Stack.Screen name="AboutUsScreenExpert" component={AboutUsScreenExpert} />
-          <Stack.Screen name="AboutUsScreenDevice" component={AboutUsScreenDevice} />
+          <Stack.Screen
+            name="AboutUsScreenTeam"
+            component={AboutUsScreenTeam}
+          />
+          <Stack.Screen
+            name="AboutUsScreenClient"
+            component={AboutUsScreenClient}
+          />
+          <Stack.Screen
+            name="AboutUsScreenExpert"
+            component={AboutUsScreenExpert}
+          />
+          <Stack.Screen
+            name="AboutUsScreenDevice"
+            component={AboutUsScreenDevice}
+          />
           <Stack.Screen name="SettingsDropDown" component={SettingsDropDown} />
           <Stack.Screen name="UserInfo" component={UserInfo} />
           <Stack.Screen name="Stats" component={Stats} />

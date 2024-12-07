@@ -44,12 +44,7 @@ const AboutUsScreen = () => {
         <Text style={[styles.team, styles.teamTypo]}>Device</Text>
       </Pressable>
 
-      <Icon
-        name="people"
-        size={40}
-        color="#132A17"
-        style={[styles.TeamIcon]}
-      />
+      <Icon name="people" size={40} color="#132A17" style={[styles.TeamIcon]} />
       <Icon
         name="person-fill"
         size={40}
@@ -103,7 +98,6 @@ const AboutUsScreen = () => {
         onPress={() => navigation.navigate("Stats")}
       >
         <Icon name="graph" size={32} color="#132A17" />
-        
       </Pressable>
     </View>
   );

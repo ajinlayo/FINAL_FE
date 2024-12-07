@@ -3,7 +3,7 @@ import { Image } from "expo-image";
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, Color, FontSize, FontFamily } from "../GlobalStyles";
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from "react-native-vector-icons/Ionicons";
 
 const AccountSettingsOption = () => {
   const navigation = useNavigation();
@@ -16,7 +16,7 @@ const AccountSettingsOption = () => {
       >
         <Icon name="arrow-back" size={25} color="#132A17" />
       </Pressable>
-      
+
       <Text style={styles.username}>USERNAME</Text>
       <View
         style={[styles.accountSettingsOption2Child, styles.accountLayout1]}
@@ -49,10 +49,11 @@ const AccountSettingsOption = () => {
       <Pressable
         style={styles.rectanglePressable}
         onPress={() => navigation.navigate("UserInfo")}
-      />
-      <Text style={[styles.editUserInfo, styles.emailTypo]}>
-        EDIT USER INFO
-      </Text>
+      >
+        <Text style={[styles.editUserInfo, styles.emailTypo]}>
+          EDIT USER INFO
+        </Text>
+      </Pressable>
     </View>
   );
 };

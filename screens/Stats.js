@@ -1,12 +1,21 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import {StyleSheet,View,Text, Button, Alert, Dimensions, Image, Pressable,} from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  Alert,
+  Dimensions,
+  Image,
+  Pressable,
+} from "react-native";
 import { Border, FontSize, FontFamily, Color } from "../GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
 import { BarChart } from "react-native-gifted-charts";
 import axios from "axios";
 import Icon from "react-native-vector-icons/Octicons";
-import RNPickerSelect from "react-native-picker-select";
+import { Picker } from "@react-native-picker/picker";
 
 const pickerSelectStyles = {
   inputIOS: {
@@ -18,7 +27,7 @@ const pickerSelectStyles = {
     borderColor: Color.colorPeachpuff,
     backgroundColor: "#F9E2D0",
     fontFamily: "Poppins-SemiBold",
-    position: "fixed",
+    position: "absolute",
   },
   inputAndroid: {
     padding: 7,
@@ -30,7 +39,7 @@ const pickerSelectStyles = {
     width: 225,
     height: 55,
     left: 75,
-    position: "fixed",
+    position: "absolute",
     elevation: 3,
   },
   placeholder: {
@@ -213,16 +222,6 @@ const Stats = ({ route }) => {
 
       <View style={[styles.statisticsChild47, styles.statisticsLayout]} />
 
-      <View style={styles.dropdownContainer}>
-        <RNPickerSelect
-          onValueChange={(value) => setSelectedTimeRange(value)}
-          items={timeRanges}
-          value={selectedTimeRange}
-          style={pickerSelectStyles}
-          placeholder={{ label: "Select a time range", value: null }}
-        />
-      </View>
-
       <Pressable
         style={[styles.homeIcon, styles.iconPosition]}
         onPress={() => navigation.navigate("HomeScreen")}
@@ -277,6 +276,26 @@ const Stats = ({ route }) => {
           topLabelTextStyle={{ fontSize: 12 }}
           isAnimated={true}
         />
+      </View>
+
+      <View style={styles.dropdownContainer}>
+        <Picker
+          selectedValue={selectedTimeRange}
+          onValueChange={(value) => setSelectedTimeRange(value)}
+          style={{
+            height: 100,
+            width: 200,
+            backgroundColor: "#F9E2D0",
+          }}
+        >
+          {timeRanges.map((range) => (
+            <Picker.Item
+              key={range.value}
+              label={range.label}
+              value={range.value}
+            />
+          ))}
+        </Picker>
       </View>
 
       <Pressable
@@ -397,7 +416,7 @@ const styles = StyleSheet.create({
     left: "59.83%",
     position: "fixed",
   },
- graphIcon: {
+  graphIcon: {
     height: "13.85%",
     width: "16.89%",
     top: "94.12%",
@@ -442,7 +461,9 @@ const styles = StyleSheet.create({
   },
   dropdownContainer: {
     backgroundColor: "#F9E2D0",
-    left: 50,
+    marginLeft: 10,
+    borderRadius: 20,
+    width: "50%",
   },
   container: {
     backgroundColor: "#3A7D44",

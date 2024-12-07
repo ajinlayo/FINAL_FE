@@ -1,8 +1,15 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, Pressable, TextInput } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  TextInput,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontSize, Color, Border, FontFamily } from "../GlobalStyles";
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from "react-native-vector-icons/Ionicons";
 
 const UserInfo = () => {
   const navigation = useNavigation();
@@ -13,10 +20,7 @@ const UserInfo = () => {
 
   return (
     <View style={styles.userInfo}>
-      <Pressable
-        style={[styles.arrowleft]}
-        onPress={() => navigation.navigate("AccountSettingsOption")}
-      >
+      <Pressable style={[styles.arrowleft]} onPress={() => navigation.goBack()}>
         <Icon name="arrow-back" size={25} color="#132A17" />
       </Pressable>
       <View style={styles.userInfoChild} />
@@ -26,6 +30,7 @@ const UserInfo = () => {
       <View style={[styles.userInfoItem, styles.userShadowBox]} />
       <View style={[styles.rectangleView, styles.userShadowBox]} />
       <Text style={[styles.username, styles.emailTypo]}>USERNAME</Text>
+
       <Text style={[styles.password, styles.emailTypo]}>PASSWORD</Text>
       <View style={styles.userInfoChild1} />
       <TextInput
@@ -41,7 +46,7 @@ const UserInfo = () => {
         value={password}
         onChangeText={setPassword}
       />
-      
+
       <View style={styles.userInfoChild1} />
       <Pressable
         style={styles.saveChanges}
@@ -91,7 +96,7 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.poppinsExtraBold,
     fontWeight: "800",
     position: "absolute",
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 2,
   },
@@ -144,7 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     height: "65.53%",
     left: 40,
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 2,
     letterSpacing: 1.5,
