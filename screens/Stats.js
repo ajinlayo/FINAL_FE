@@ -1,15 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Button,
-  Alert,
-  Dimensions,
-  Image,
-  Pressable,
-} from "react-native";
+import {StyleSheet,View,Text,Button,Alert,Dimensions,Image,Pressable,} from "react-native";
 import { Border, FontSize, FontFamily, Color } from "../GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
 import { BarChart } from "react-native-gifted-charts";
@@ -17,53 +8,13 @@ import axios from "axios";
 import Icon from "react-native-vector-icons/Octicons";
 import { Picker } from "@react-native-picker/picker";
 
-const pickerSelectStyles = {
-  inputIOS: {
-    fontSize: 12,
-    fontColor: "white",
-    padding: 12,
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: Color.colorPeachpuff,
-    backgroundColor: "#F9E2D0",
-    fontFamily: "Poppins-SemiBold",
-    position: "absolute",
-  },
-  inputAndroid: {
-    padding: 7,
-    fontColor: "white",
-    borderRadius: 35,
-    borderWidth: 1,
-    backgroundColor: "#F9E2D0",
-    top: 125,
-    width: 225,
-    height: 55,
-    left: 75,
-    position: "absolute",
-    elevation: 3,
-  },
-  placeholder: {
-    color: "#3A7D44",
-    fontFamily: "Poppins-SemiBold",
-    fontSize: 12,
-    backgroundColor: "#F9E2D0",
-  },
-  option: {
-    fontSize: 14,
-    fontFamily: "Poppins-SemiBold",
-    color: "blue",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    backgroundColor: "#F9E2D0",
-  },
-};
-
 const Stats = ({ route }) => {
   const navigation = useNavigation();
   const { userData } = route.params;
   const [barData, setBarData] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [selectedTimeRange, setSelectedTimeRange] = useState("7AM-12PM");
+  const [selectedDateRange, setSelectedDateRange] = useState("lastWeek");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const screenWidth = Dimensions.get("window").width;
@@ -72,6 +23,12 @@ const Stats = ({ route }) => {
     { label: "7 AM - 12 PM", value: "7AM-12PM" },
     { label: "1 PM - 5 PM", value: "1PM-5PM" },
     { label: "Full day (7 AM - 5 PM)", value: "7AM-5PM" },
+  ];
+
+  const dateRanges = [
+    { label: "Today", value: "today" },
+    { label: "Last 7 Days", value: "lastWeek" },
+    { label: "Last 30 Days", value: "lastMonth" },
   ];
 
   const handleDetailsScreen = () => {
@@ -220,8 +177,7 @@ const Stats = ({ route }) => {
       <View style={[styles.statisticsItem, styles.statisticsLayout]} />
       <Text style={styles.historyData}>HISTORY DATA</Text>
 
-      <View style={[styles.statisticsChild47, styles.statisticsLayout]} />
-
+      <View style={[styles.bottomScreenContainer, styles.statisticsLayout]} />
       <Pressable
         style={[styles.homeIcon, styles.iconPosition]}
         onPress={() => navigation.navigate("HomeScreen")}
@@ -257,7 +213,7 @@ const Stats = ({ route }) => {
         style={[styles.graphIcon, styles.vectorIconLayout]}
       />
 
-      <View style={styles.container}>
+      <View style={styles.chartContainer}>
         {renderTitle()}
         {console.log(groupedBarData)}
         <BarChart
@@ -277,13 +233,12 @@ const Stats = ({ route }) => {
           isAnimated={true}
         />
       </View>
-
-      <View style={styles.dropdownContainer}>
+      <View style={styles.selectTimeContainer}>
         <Picker
           selectedValue={selectedTimeRange}
           onValueChange={(value) => setSelectedTimeRange(value)}
           style={{
-            height: 100,
+            height: 50,
             width: 200,
             backgroundColor: "#F9E2D0",
           }}
@@ -297,6 +252,27 @@ const Stats = ({ route }) => {
           ))}
         </Picker>
       </View>
+
+      <View style={styles.selectDateContainer}>
+      <Picker
+        selectedValue={selectedDateRange}
+        onValueChange={(value) => setSelectedDateRange(value)}
+        style={{
+          height: 55,
+          width: 200,
+          backgroundColor: "#F9E2D0",
+        }}
+      >
+        {dateRanges.map((range) => (
+          <Picker.Item
+            key={range.value}
+            label={range.label}
+            value={range.value}
+          />
+        ))}
+      </Picker>
+    </View>
+
 
       <Pressable
         style={({ pressed }) => [
@@ -425,7 +401,7 @@ const styles = StyleSheet.create({
     left: "35.56%",
     position: "fixed",
   },
-  statisticsChild47: {
+  bottomScreenContainer: {
     height: "11.79%",
     top: "91.38%",
     right: "-0.28%",
@@ -452,27 +428,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#3A7D44",
     borderRadius: 30,
     elevation: 3,
-    top: 0,
-    width: 150,
+    width: 145,
     height: 40,
-    left: 155,
-    position: "absolute",
-    top: 580,
+    top: 160,
+    alignSelf: "flex-start",
   },
-  dropdownContainer: {
+  selectTimeContainer: {
     backgroundColor: "#F9E2D0",
-    marginLeft: 10,
-    borderRadius: 20,
-    width: "50%",
+    alignSelf: "center",
+    bottom: 260,
   },
-  container: {
+  selectDateContainer: {
+    backgroundColor: "#F9E2D0",
+    alignSelf: "center",
+    bottom: 255,
+  },
+  chartContainer: {
     backgroundColor: "#3A7D44",
     paddingBottom: 40,
     borderRadius: 20,
-    top: 130,
+    top: 250,
     width: 350,
-    left: 5,
-    position: "fixed",
     elevation: 3,
     alignSelf: "center",
   },
@@ -501,6 +477,7 @@ const styles = StyleSheet.create({
     width: 12,
     borderRadius: 6,
     marginRight: 8,
+    alignSelf: "center",
   },
   legendText: {
     width: 60,
@@ -511,11 +488,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#3A7D44",
     borderRadius: 30,
     elevation: 3,
-    top: 630,
-    width: 150,
+    top: 120,
+    width: 145,
     height: 40,
-    left: 155,
-    position: "absolute",
+    alignSelf: "flex-end",
+    
   },
   refreshText: {
     fontSize: 20,
