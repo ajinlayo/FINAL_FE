@@ -233,13 +233,14 @@ const Stats = ({ route }) => {
           isAnimated={true}
         />
       </View>
+      <Text style={styles.selectTimeLabel}>Select a time range:</Text>
       <View style={styles.selectTimeContainer}>
-        <Picker
+      <Picker
           selectedValue={selectedTimeRange}
           onValueChange={(value) => setSelectedTimeRange(value)}
           style={{
-            height: 50,
-            width: 200,
+            height: 45,
+            width: 170,
             backgroundColor: "#F9E2D0",
           }}
         >
@@ -248,18 +249,24 @@ const Stats = ({ route }) => {
               key={range.value}
               label={range.label}
               value={range.value}
+              style={{
+                fontSize: 12, 
+                fontFamily: "Poppins-Regular",
+                color: "#000", 
+              }}
             />
           ))}
         </Picker>
       </View>
 
+      <Text style={styles.selectDateLabel}>Select date:</Text>
       <View style={styles.selectDateContainer}>
       <Picker
         selectedValue={selectedDateRange}
         onValueChange={(value) => setSelectedDateRange(value)}
         style={{
-          height: 55,
-          width: 200,
+          height: 47,
+          width: 170,
           backgroundColor: "#F9E2D0",
         }}
       >
@@ -268,6 +275,11 @@ const Stats = ({ route }) => {
             key={range.value}
             label={range.label}
             value={range.value}
+            style={{
+                fontSize: 12, 
+                fontFamily: "Poppins-Regular",
+                color: "#000", 
+            }}
           />
         ))}
       </Picker>
@@ -430,18 +442,45 @@ const styles = StyleSheet.create({
     elevation: 3,
     width: 145,
     height: 40,
-    top: 160,
+    top: 125,
     alignSelf: "flex-start",
+    marginLeft: 10,
+  },
+  selectTimeLabel: {
+    fontSize: 12, 
+    fontFamily: "Poppins-SemiBold", 
+    color: "white", 
+    bottom: 230, 
+    textAlign: "left",
+    marginHorizontal: 20,
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
   },
   selectTimeContainer: {
     backgroundColor: "#F9E2D0",
-    alignSelf: "center",
+    alignSelf: "flex-end",
     bottom: 260,
+    marginHorizontal: 25,
+    elevation: 3,
+  },
+  selectDateLabel: {
+    fontSize: 12, 
+    fontFamily: "Poppins-SemiBold", 
+    color: "white", 
+    bottom: 240, 
+    textAlign: "left",
+    marginHorizontal: 70,
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
   },
   selectDateContainer: {
     backgroundColor: "#F9E2D0",
-    alignSelf: "center",
-    bottom: 255,
+    alignSelf: "flex-end",
+    bottom: 275,
+    marginHorizontal: 25, 
+    elevation: 3,
   },
   chartContainer: {
     backgroundColor: "#3A7D44",
@@ -488,11 +527,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#3A7D44",
     borderRadius: 30,
     elevation: 3,
-    top: 120,
     width: 145,
     height: 40,
     alignSelf: "flex-end",
-    
+    marginVertical: 85,
+    marginRight: 10,
   },
   refreshText: {
     fontSize: 20,
