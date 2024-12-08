@@ -1,5 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
-import {StyleSheet,View,Text,Pressable,ActivityIndicator,Button,Alert,Modal,TouchableOpacity,} from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  ActivityIndicator,
+  Button,
+  Alert,
+  Modal,
+  TouchableOpacity,
+} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
@@ -8,6 +18,8 @@ import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
 import "regenerator-runtime/runtime";
 import Constants from "expo-constants";
+import * as FileSystem from "expo-file-system";
+import * as MediaLibrary from "expo-media-library";
 
 const Details = ({ route }) => {
   const navigation = useNavigation();
@@ -26,6 +38,44 @@ const Details = ({ route }) => {
     time: "N/A",
   });
 
+  const downloadAndSaveImage = async () => {
+    const imageUrl =
+      "https://production-myentobackend.onrender.com/api/v1/images/673f5282bee9a9e3336aea72";
+    const fileUri = FileSystem.cacheDirectory + "downloadedImage.jpg";
+
+    try {
+      // Download the image to a temporary file
+      const { uri } = await FileSystem.downloadAsync(imageUrl, fileUri);
+
+      // Save the downloaded file to the gallery
+      await saveImageToGallery(uri);
+    } catch (error) {
+      console.error("Error downloading and saving image:", error.message);
+      Alert.alert("Error", "Failed to download and save the image.");
+    }
+  };
+
+  const saveImageToGallery = async (uri) => {
+    try {
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      console.log(status);
+      if (status !== "granted") {
+        Alert.alert(
+          "Permission Denied",
+          "Gallery access is required to save images."
+        );
+        return; // Exit early if permission is denied
+      }
+
+      const asset = await MediaLibrary.createAssetAsync(uri);
+      await MediaLibrary.createAlbumAsync("MyApp", asset, false);
+      Alert.alert("Success", "Image saved to gallery!");
+    } catch (error) {
+      console.error("Error saving image to gallery:", error.message);
+      Alert.alert("Error", "Failed to save image to gallery.");
+    }
+  };
+
   useEffect(() => {
     const fetchDetectionData = async () => {
       try {
@@ -33,6 +83,7 @@ const Details = ({ route }) => {
           `/auth/filter-detections?deviceId=${deviceId}`
         );
         const data = response.data.detections;
+        console.log("Response Data: ", data);
         if (response.data.success) {
           const sortedData = data.sort((a, b) => {
             const dateA = new Date(`${a.date} ${a.time}`);
@@ -42,9 +93,13 @@ const Details = ({ route }) => {
           setDetections(sortedData);
           setDetectionInfo({
             numberOfBugs: sortedData[0].numberOfBugs,
-            bugsConfidenceScore: sortedData[0].bugsConfidenceScore,
+            bugsConfidenceScore: parseFloat(
+              (sortedData[0].bugsConfidenceScore * 100).toFixed(2)
+            ),
             numberOfPanicles: sortedData[0].numberOfPanicles,
-            paniclesConfidenceScore: sortedData[0].paniclesConfidenceScore,
+            paniclesConfidenceScore: parseFloat(
+              (sortedData[0].paniclesConfidenceScore * 100).toFixed(2)
+            ),
             date: sortedData[0].date,
             time: sortedData[0].time,
           });
@@ -83,9 +138,13 @@ const Details = ({ route }) => {
       const prevDetection = detections[prevIndex];
       setDetectionInfo({
         numberOfBugs: prevDetection.numberOfBugs,
-        bugsConfidenceScore: prevDetection.bugsConfidenceScore,
+        bugsConfidenceScore: parseFloat(
+          (prevDetection.bugsConfidenceScore * 100).toFixed(2)
+        ),
         numberOfPanicles: prevDetection.numberOfPanicles,
-        paniclesConfidenceScore: prevDetection.paniclesConfidenceScore,
+        paniclesConfidenceScore: parseFloat(
+          (prevDetection.paniclesConfidenceScore * 100).toFixed(2)
+        ),
         date: prevDetection.date,
         time: prevDetection.time,
       });
@@ -104,9 +163,13 @@ const Details = ({ route }) => {
       const nextDetection = detections[nextIndex];
       setDetectionInfo({
         numberOfBugs: nextDetection.numberOfBugs,
-        bugsConfidenceScore: nextDetection.bugsConfidenceScore,
+        bugsConfidenceScore: parseFloat(
+          (nextDetection.bugsConfidenceScore * 100).toFixed(2)
+        ),
         numberOfPanicles: nextDetection.numberOfPanicles,
-        paniclesConfidenceScore: nextDetection.paniclesConfidenceScore,
+        paniclesConfidenceScore: parseFloat(
+          (nextDetection.paniclesConfidenceScore * 100).toFixed(2)
+        ),
         date: nextDetection.date,
         time: nextDetection.time,
       });
@@ -121,9 +184,13 @@ const Details = ({ route }) => {
       console.log(detections);
       setDetectionInfo({
         numberOfBugs: latestDetection.numberOfBugs,
-        bugsConfidenceScore: latestDetection.bugsConfidenceScore,
+        bugsConfidenceScore: parseFloat(
+          (latestDetection.bugsConfidenceScore * 100).toFixed(4)
+        ),
         numberOfPanicles: latestDetection.numberOfPanicles,
-        paniclesConfidenceScore: latestDetection.paniclesConfidenceScore,
+        paniclesConfidenceScore: parseFloat(
+          (latestDetection.paniclesConfidenceScore * 100).toFixed(4)
+        ),
         date: latestDetection.date,
         time: latestDetection.time,
       });
@@ -153,12 +220,13 @@ const Details = ({ route }) => {
         <View style={styles.container}>
           <Image
             source={
-              imageUrl
-                ? { uri: imageUrl }
-                : require("../assets/sample-image.png")
+              require("../assets/No Image Available.jpg")
+              /*uri: "https://production-myentobackend.onrender.com/api/v1/images/673f5282bee9a9e3336aea72",
+            }*/
             }
             style={styles.image}
           />
+
           <View style={styles.dateTimeSection}>
             <View style={styles.dateTimeRow}>
               <Text style={styles.labelText}>Date Created</Text>
@@ -186,7 +254,7 @@ const Details = ({ route }) => {
               <Text>
                 Average Confidence Score (Bugs):{" "}
                 <Text style={styles.valueText}>
-                  {detectionInfo.bugsConfidenceScore * 100} %
+                  {detectionInfo.bugsConfidenceScore} %
                 </Text>
               </Text>
             </View>
@@ -204,7 +272,7 @@ const Details = ({ route }) => {
               <Text>
                 Average Confidence Score (Panicles):{" "}
                 <Text style={styles.valueText}>
-                  {detectionInfo.paniclesConfidenceScore * 100} %
+                  {detectionInfo.paniclesConfidenceScore} %
                 </Text>
               </Text>
             </View>
@@ -222,7 +290,7 @@ const Details = ({ route }) => {
           </View>
 
           <View style={styles.buttonsContainer}>
-            <Pressable onPress={toggleModal} style={styles.button}>
+            <Pressable onPress={downloadAndSaveImage} style={styles.button}>
               <Text style={styles.buttonText}>Download Image</Text>
             </Pressable>
 
@@ -303,9 +371,11 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   image: {
+    opacity: 0.75,
     width: 300,
     height: 300,
     borderRadius: 5,
+    elevation: 10,
   },
   dateTimeSection: {
     flexDirection: "row",
@@ -345,7 +415,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 4,
-    width: "90%", // Align to center relative to parent
+    width: "100%",
   },
   reportRow: {
     flexDirection: "row",
@@ -412,6 +482,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
 
 export default Details;

@@ -260,19 +260,19 @@ const styles = StyleSheet.create({
   UserIcon: {
     width: 54,
     height: 58,
-    bottom: 25,
+    bottom: 20,
     marginLeft: 105,
   },
   BriefCaseIcon: {
     width: 54,
     height: 58,
-    top: 15,
+    top: 33,
     marginLeft: 105,
   },
   WebhookIcon: {
     width: 54,
     height: 58,
-    top: 55,
+    top: 85,
     marginLeft: 105,
   },
   aboutUsScreenChild2: {

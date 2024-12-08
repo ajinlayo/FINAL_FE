@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
     height: 40,
     top: 125,
     alignSelf: "flex-start",
-    marginLeft: 10,
+    marginLeft: 50,
   },
   selectTimeLabel: {
     fontSize: 12,
@@ -541,7 +541,7 @@ const styles = StyleSheet.create({
     height: 40,
     alignSelf: "flex-end",
     marginVertical: 85,
-    marginRight: 10,
+    marginRight: 50,
   },
   refreshText: {
     fontSize: 20,
