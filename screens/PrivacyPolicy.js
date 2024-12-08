@@ -50,7 +50,7 @@ To provide a statistics and report about the rice ear bugs detected.`}</Text>
 
 const styles = StyleSheet.create({
   howWeUseTypo: {
-    color: Color.colorBlack,
+    color: "#F6D4BA",
     fontSize: 18,
     height: "3.28%",
     width: "73.54%",
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     left: 12,
   },
   privacyPolicy: {
-    backgroundColor: Color.colorAntiquewhite,
+    backgroundColor: "#132A17",
     flex: 1,
     width: "100%",
     height: 640,

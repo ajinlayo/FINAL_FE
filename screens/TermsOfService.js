@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   useOfServicesTypo: {
-    color: Color.colorBlack,
+    color: "#F6D4BA",
     fontSize: 18,
     height: "3.28%",
     width: "70.56%",
@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-SemiBold',
     fontWeight: "600",
     position: "absolute",
+    color: "white"
   },
   termsOfServiceChild: {
     top: 55,
@@ -153,7 +154,7 @@ const styles = StyleSheet.create({
     color: Color.colorMediumseagreen,
   },
   termsOfService: {
-    backgroundColor: Color.colorAntiquewhite,
+    backgroundColor: "#132A17",
     flex: 1,
     width: "100%",
     height: 640,
