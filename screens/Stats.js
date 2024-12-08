@@ -16,54 +16,17 @@ import { BarChart } from "react-native-gifted-charts";
 import axios from "axios";
 import Icon from "react-native-vector-icons/Octicons";
 import { Picker } from "@react-native-picker/picker";
+import { AuthContext } from "../context/authContext";
 
-const pickerSelectStyles = {
-  inputIOS: {
-    fontSize: 12,
-    fontColor: "white",
-    padding: 12,
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: Color.colorPeachpuff,
-    backgroundColor: "#F9E2D0",
-    fontFamily: "Poppins-SemiBold",
-    position: "absolute",
-  },
-  inputAndroid: {
-    padding: 7,
-    fontColor: "white",
-    borderRadius: 35,
-    borderWidth: 1,
-    backgroundColor: "#F9E2D0",
-    top: 125,
-    width: 225,
-    height: 55,
-    left: 75,
-    position: "absolute",
-    elevation: 3,
-  },
-  placeholder: {
-    color: "#3A7D44",
-    fontFamily: "Poppins-SemiBold",
-    fontSize: 12,
-    backgroundColor: "#F9E2D0",
-  },
-  option: {
-    fontSize: 14,
-    fontFamily: "Poppins-SemiBold",
-    color: "blue",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    backgroundColor: "#F9E2D0",
-  },
-};
-
-const Stats = ({ route }) => {
+const Stats = () => {
   const navigation = useNavigation();
-  const { userData } = route.params;
+  const [state] = React.useContext(AuthContext);
+  const { user } = state;
+
   const [barData, setBarData] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [selectedTimeRange, setSelectedTimeRange] = useState("7AM-12PM");
+  const [selectedDateRange, setSelectedDateRange] = useState("lastWeek");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const screenWidth = Dimensions.get("window").width;
@@ -74,10 +37,16 @@ const Stats = ({ route }) => {
     { label: "Full day (7 AM - 5 PM)", value: "7AM-5PM" },
   ];
 
+  const dateRanges = [
+    { label: "Today", value: "today" },
+    { label: "Last 7 Days", value: "lastWeek" },
+    { label: "Last 30 Days", value: "lastMonth" },
+  ];
+
   const handleDetailsScreen = () => {
     // Navigate to Details
     navigation.navigate("Details", {
-      deviceId: userData.deviceId,
+      deviceId: user.deviceId,
     });
   };
 
@@ -89,7 +58,7 @@ const Stats = ({ route }) => {
 
         // Replace the URL below with your backend URL
         const response = await axios.get(
-          `/auth/filter-detections?deviceId=${userData.deviceId}`
+          `/auth/filter-detections?deviceId=${user?.deviceId}`
         );
         console.log("Fetched Data:", response.data.detections);
         setBarData(response.data.detections);
@@ -100,10 +69,10 @@ const Stats = ({ route }) => {
         setLoading(false);
       }
     };
-    if (userData?.deviceId) {
+    if (user?.deviceId) {
       fetchData();
     }
-  }, [userData.deviceId]);
+  }, [user?.deviceId]);
 
   const filterDataByTimeRange = (data, range) => {
     const filteredData = data.filter((detection) => {
@@ -172,7 +141,7 @@ const Stats = ({ route }) => {
 
       // Re-fetch the data from the backend
       const response = await axios.get(
-        `/auth/filter-detections?deviceId=${userData.deviceId}`
+        `/auth/filter-detections?deviceId=${user?.deviceId}`
       );
       console.log("Refreshed Data:", response.data.detections);
       const newBarData = response.data.detections;
@@ -220,8 +189,7 @@ const Stats = ({ route }) => {
       <View style={[styles.statisticsItem, styles.statisticsLayout]} />
       <Text style={styles.historyData}>HISTORY DATA</Text>
 
-      <View style={[styles.statisticsChild47, styles.statisticsLayout]} />
-
+      <View style={[styles.bottomScreenContainer, styles.statisticsLayout]} />
       <Pressable
         style={[styles.homeIcon, styles.iconPosition]}
         onPress={() => navigation.navigate("HomeScreen")}
@@ -257,9 +225,8 @@ const Stats = ({ route }) => {
         style={[styles.graphIcon, styles.vectorIconLayout]}
       />
 
-      <View style={styles.container}>
+      <View style={styles.chartContainer}>
         {renderTitle()}
-        {console.log(groupedBarData)}
         <BarChart
           data={groupedBarData}
           barWidth={15}
@@ -277,14 +244,14 @@ const Stats = ({ route }) => {
           isAnimated={true}
         />
       </View>
-
-      <View style={styles.dropdownContainer}>
+      <Text style={styles.selectTimeLabel}>Select a time range:</Text>
+      <View style={styles.selectTimeContainer}>
         <Picker
           selectedValue={selectedTimeRange}
           onValueChange={(value) => setSelectedTimeRange(value)}
           style={{
-            height: 100,
-            width: 200,
+            height: 45,
+            width: 170,
             backgroundColor: "#F9E2D0",
           }}
         >
@@ -293,6 +260,37 @@ const Stats = ({ route }) => {
               key={range.value}
               label={range.label}
               value={range.value}
+              style={{
+                fontSize: 12,
+                fontFamily: "Poppins-Regular",
+                color: "#000",
+              }}
+            />
+          ))}
+        </Picker>
+      </View>
+
+      <Text style={styles.selectDateLabel}>Select date:</Text>
+      <View style={styles.selectDateContainer}>
+        <Picker
+          selectedValue={selectedDateRange}
+          onValueChange={(value) => setSelectedDateRange(value)}
+          style={{
+            height: 47,
+            width: 170,
+            backgroundColor: "#F9E2D0",
+          }}
+        >
+          {dateRanges.map((range) => (
+            <Picker.Item
+              key={range.value}
+              label={range.label}
+              value={range.value}
+              style={{
+                fontSize: 12,
+                fontFamily: "Poppins-Regular",
+                color: "#000",
+              }}
             />
           ))}
         </Picker>
@@ -425,7 +423,7 @@ const styles = StyleSheet.create({
     left: "35.56%",
     position: "fixed",
   },
-  statisticsChild47: {
+  bottomScreenContainer: {
     height: "11.79%",
     top: "91.38%",
     right: "-0.28%",
@@ -452,27 +450,54 @@ const styles = StyleSheet.create({
     backgroundColor: "#3A7D44",
     borderRadius: 30,
     elevation: 3,
-    top: 0,
-    width: 150,
+    width: 145,
     height: 40,
-    left: 155,
-    position: "absolute",
-    top: 580,
-  },
-  dropdownContainer: {
-    backgroundColor: "#F9E2D0",
+    top: 125,
+    alignSelf: "flex-start",
     marginLeft: 10,
-    borderRadius: 20,
-    width: "50%",
   },
-  container: {
+  selectTimeLabel: {
+    fontSize: 12,
+    fontFamily: "Poppins-SemiBold",
+    color: "white",
+    bottom: 230,
+    textAlign: "left",
+    marginHorizontal: 20,
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
+  },
+  selectTimeContainer: {
+    backgroundColor: "#F9E2D0",
+    alignSelf: "flex-end",
+    bottom: 260,
+    marginHorizontal: 25,
+    elevation: 3,
+  },
+  selectDateLabel: {
+    fontSize: 12,
+    fontFamily: "Poppins-SemiBold",
+    color: "white",
+    bottom: 240,
+    textAlign: "left",
+    marginHorizontal: 70,
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
+  },
+  selectDateContainer: {
+    backgroundColor: "#F9E2D0",
+    alignSelf: "flex-end",
+    bottom: 275,
+    marginHorizontal: 25,
+    elevation: 3,
+  },
+  chartContainer: {
     backgroundColor: "#3A7D44",
     paddingBottom: 40,
     borderRadius: 20,
-    top: 130,
+    top: 250,
     width: 350,
-    left: 5,
-    position: "fixed",
     elevation: 3,
     alignSelf: "center",
   },
@@ -501,6 +526,7 @@ const styles = StyleSheet.create({
     width: 12,
     borderRadius: 6,
     marginRight: 8,
+    alignSelf: "center",
   },
   legendText: {
     width: 60,
@@ -511,11 +537,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#3A7D44",
     borderRadius: 30,
     elevation: 3,
-    top: 630,
-    width: 150,
+    width: 145,
     height: 40,
-    left: 155,
-    position: "absolute",
+    alignSelf: "flex-end",
+    marginVertical: 85,
+    marginRight: 10,
   },
   refreshText: {
     fontSize: 20,

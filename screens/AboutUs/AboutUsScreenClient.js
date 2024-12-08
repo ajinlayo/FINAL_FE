@@ -1,5 +1,11 @@
 import * as React from "react";
-import {StyleSheet, View, Text, TouchableOpacity, Pressable,} from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Border, Color, FontFamily, FontSize } from "../../GlobalStyles";
@@ -51,7 +57,7 @@ const AboutUsScreenClient = () => {
 
       <Pressable
         style={[styles.controlIcon]}
-        onPress={() => navigation.navigate("DeviceStatus")}
+        onPress={() => navigation.navigate("Add Device")}
       >
         <Icon name="plus-circle" size={35} color="#132A17" />
       </Pressable>

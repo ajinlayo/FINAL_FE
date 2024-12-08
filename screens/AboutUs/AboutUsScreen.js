@@ -88,7 +88,7 @@ const AboutUsScreen = () => {
 
       <Pressable
         style={[styles.controlIcon]}
-        onPress={() => navigation.navigate("DeviceStatus")}
+        onPress={() => navigation.navigate("Add Device")}
       >
         <Icon name="plus-circle" size={35} color="#132A17" />
       </Pressable>
@@ -252,31 +252,28 @@ const styles = StyleSheet.create({
     bottom: "26.09%",
   },
   TeamIcon: {
-    top: 208,
-    left: 108,
     width: 54,
     height: 58,
-    position: "absolute",
+    bottom: 70,
+    marginLeft: 105,
   },
   UserIcon: {
-    top: 307,
-    left: 108,
-    width: 50,
-    height: 50,
-    position: "absolute",
+    width: 54,
+    height: 58,
+    bottom: 25,
+    marginLeft: 105,
   },
   BriefCaseIcon: {
-    top: 412,
-    height: 44,
-    width: 40,
-    left: 108,
-    position: "absolute",
+    width: 54,
+    height: 58,
+    top: 15,
+    marginLeft: 105,
   },
   WebhookIcon: {
-    top: 510,
-    height: 38,
-    left: 108,
-    position: "absolute",
+    width: 54,
+    height: 58,
+    top: 55,
+    marginLeft: 105,
   },
   aboutUsScreenChild2: {
     height: "14.53%",
