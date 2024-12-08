@@ -405,7 +405,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     width: "80%",
-    alignItems: "center",
+    alignItems: "flex-start",
   },
   modalText: {
     fontSize: 18,
@@ -415,6 +415,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f44336",
     padding: 10,
     borderRadius: 5,
+    alignSelf: "center",
   },
   closeButtonText: {
     color: "#fff",
