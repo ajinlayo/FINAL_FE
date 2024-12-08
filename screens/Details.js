@@ -1,15 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Pressable,
-  ActivityIndicator,
-  Button,
-  Alert,
-  Modal,
-  TouchableOpacity,
-} from "react-native";
+import {StyleSheet,View,Text,Pressable,ActivityIndicator,Button,Alert,Modal,TouchableOpacity,} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
