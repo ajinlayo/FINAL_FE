@@ -51,13 +51,13 @@ const UserInfo = () => {
         style={[styles.arrowleft]}
         onPress={() => navigation.navigate("AccountSettingsOption")}
       >
-        <Icon name="arrow-back" size={25} color="#132A17" />
+        <Icon name="arrow-back" size={35} color="#132A17" />
       </Pressable>
 
-      <View style={styles.container1}>
-        <Text style={styles.heading}> EDIT USER INFO </Text>
+      <View style={styles.editUserContainer}>
+        <Text style={styles.editUserText}> EDIT USER INFO </Text>
       </View>
-      <View style={styles.container2}>
+      <View style={styles.usernameContainer}>
         <Text style={styles.label}>USERNAME</Text>
         <View style={styles.textBox}>
           <TextInput
@@ -115,42 +115,53 @@ const styles = StyleSheet.create({
   arrowleft: {
     height: "15.47%",
     width: "25.53%",
-    marginTop: "25",
-    marginLeft: "20",
+    marginTop: "40",
+    marginLeft: "10",
     position: "absolute",
     overflow: "hidden",
   },
-  container1: {
+  editUserContainer: {
     backgroundColor: "#3A7D44",
-    width: "82%", // Adjust width as needed
-    height: "5%", // Adjust height as needed
-    borderRadius: 50, // Optional: for rounded corners
-    alignItems: "center", // Center content horizontally
-
-    marginHorizontal: "45",
+    width: "82%", 
+    height: 50, 
+    borderRadius: 50, 
+    alignItems: "center", 
+    marginHorizontal: "35",
     marginTop: "90",
     flexDirection: "column",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 20,
+      height: 10,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 3,
   },
-  heading: {
+  editUserText: {
     fontSize: 25,
-    fontWeight: "bold",
+    fontFamily: "Poppins-SemiBold",
     color: "#132A17",
-    marginTop: "5",
+    marginTop: "4",
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 2,
   },
-  container2: {
+  usernameContainer: {
     backgroundColor: "#3A7D44",
-    width: "82%", // Adjust width as needed
-    height: "50%", // Adjust height as needed
-    borderRadius: 25, // Optional: for rounded corners
-    alignItems: "stretch", // Center content horizontally
-    marginHorizontal: "45",
+    width: "82%", 
+    height: 350, 
+    borderRadius: 25, 
+    alignItems: "stretch",
+    marginHorizontal: "35",
     marginTop: "50",
     flexDirection: "column",
+    elevation: 3,
   },
   textBox: {
     flexDirection: "row",
     alignItems: "center",
-    height: "10%",
+    height: "12%",
     width: "78%",
     backgroundColor: "#F6D4BA",
     marginTop: 1,
@@ -160,13 +171,16 @@ const styles = StyleSheet.create({
   },
   InputStyle: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 15,
   },
   label: {
     marginLeft: "10%",
     marginTop: "9%",
     fontWeight: "bold",
     color: "white",
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 2,
   },
   eyeIcon: {
     padding: 5,
@@ -183,7 +197,7 @@ const styles = StyleSheet.create({
   },
   saveChangesText: {
     textAlign: "center",
-    marginTop: 10,
+    marginTop: 8,
     fontWeight: "bold",
     color: "white",
   },
