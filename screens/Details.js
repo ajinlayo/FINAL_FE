@@ -298,17 +298,17 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
     color: "#132A17",
     position: "absolute",
-    left: "47%",
-    transform: [{ translateX: -25 }, { translateY: 20 }],
+    left: "55%",
+    transform: [{ translateX: -50 }], // Center title horizontally
+    top: 40,
   },
   contentContainer: {
     flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "baseline",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 30,
   },
   container: {
-    flex: 1,
     alignItems: "center",
     padding: 10,
   },
@@ -316,22 +316,18 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     borderRadius: 5,
-    left: 25,
   },
   dateTimeSection: {
     flexDirection: "row",
     marginTop: 10,
     marginBottom: 5,
-    width: "90%", // Adjust the width to center content
-    left: 35,
-    bottom: 6,
+    justifyContent: "space-around",
+    width: "80%", // Center content within container
   },
   dateTimeRow: {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 5,
-    marginRight: 20,
   },
   labelText: {
     fontSize: 16,
@@ -348,8 +344,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     marginBottom: 10,
-    left: 25,
-    bottom: 10,
+    textAlign: "center",
   },
   reportContainer: {
     backgroundColor: "#c7d6ca",
@@ -360,13 +355,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 4,
-    left: 25,
-    bottom: 15,
+    width: "90%", // Align to center relative to parent
   },
   reportRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 5,
   },
   icon: {
     marginRight: 10,
@@ -374,24 +368,22 @@ const styles = StyleSheet.create({
   iconRow: {
     flexDirection: "row",
     justifyContent: "space-around",
-    width: "80%",
+    width: "70%",
     marginTop: 10,
-    marginBottom: 20,
-    left: 10,
-    bottom: 15,
   },
   buttonsContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    left: 25,
-    bottom: 30,
+    justifyContent: "space-around",
+    top: 10, // Position buttons at the bottom
+    width: "100%",
+    paddingHorizontal: 20,
   },
   button: {
     backgroundColor: "#4CAF50",
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
-    margin: 5,
+    marginHorizontal: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
@@ -417,7 +409,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 18,
-    marginBottom: 10,
+    marginBottom: 5,
   },
   closeButton: {
     backgroundColor: "#f44336",
@@ -429,5 +421,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
 
 export default Details;
