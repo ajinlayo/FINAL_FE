@@ -16,12 +16,12 @@ const HomeScreen = () => {
   });
 
   if (!fontsLoaded) {
-    return null; 
+    return null;
   }
 
   const handleStatsPress = () => {
     // Navigate to Stats screen or any other screen
-    navigation.navigate("Stats", { userData: state.user });
+    navigation.navigate("Stats");
   };
 
   const handleAddDevicePress = () => {
@@ -41,7 +41,6 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.aboutUsScreen}>
-
       <Image
         source={require("../assets/MyEntoLogo.png")}
         style={styles.logo}

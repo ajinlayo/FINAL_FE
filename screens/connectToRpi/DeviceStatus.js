@@ -71,12 +71,6 @@ const DeviceStatus = () => {
                 </Text>
                 <Text style={styles.deviceDetailsText}>Status: Connected</Text>
               </View>
-              <Pressable
-                style={styles.addDeviceButton}
-                onPress={() => handleAddDevice()}
-              >
-                <Text style={styles.addDeviceButtonText}>Add Device</Text>
-              </Pressable>
             </View>
           ) : (
             // Display warning icon if connectedToDevice is false
@@ -116,7 +110,7 @@ const DeviceStatus = () => {
             <Text style={styles.modalTitle}>Info</Text>
             <Text style={styles.modalContent}>
               This contains what device is connected to your account, and its
-              current status. You can also add a new device here.
+              current status.
             </Text>
             <Pressable style={styles.closeButton} onPress={toggleModal}>
               <Text style={styles.closeButtonText}>Close</Text>

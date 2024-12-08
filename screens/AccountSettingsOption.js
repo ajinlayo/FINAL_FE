@@ -136,11 +136,10 @@ const styles = StyleSheet.create({
   },
   Container2: {
     backgroundColor: "#F9E2D0",
-    width: "82%", // Adjust width as needed
-    height: "65%", // Adjust height as needed
-    borderRadius: 15, // Optional: for rounded corners
-    // Center content vertically
-    alignItems: "center", // Center content horizontally
+    width: "82%",
+    height: "65%",
+    borderRadius: 15,
+    alignItems: "center",
     marginHorizontal: "45",
     marginTop: "70",
     flexDirection: "column",
@@ -175,12 +174,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   Container3: {
-    width: "80%", // Adjust width as needed
-    height: "10%", // Adjust height as needed
-    borderRadius: 15, // Optional: for rounded corners
-    alignItems: "center", // Center content horizontally
-    marginHorizontal: "45",
-    marginTop: "10",
+    width: "80%",
+    height: "10%",
+    borderRadius: 15,
+    alignItems: "center",
+    marginHorizontal: 45,
+    marginTop: 10,
     flexDirection: "row",
   },
 

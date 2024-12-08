@@ -1,16 +1,28 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import {StyleSheet,View,Text,Button,Alert,Dimensions,Image,Pressable,} from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  Alert,
+  Dimensions,
+  Image,
+  Pressable,
+} from "react-native";
 import { Border, FontSize, FontFamily, Color } from "../GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
 import { BarChart } from "react-native-gifted-charts";
 import axios from "axios";
 import Icon from "react-native-vector-icons/Octicons";
 import { Picker } from "@react-native-picker/picker";
+import { AuthContext } from "../context/authContext";
 
-const Stats = ({ route }) => {
+const Stats = () => {
   const navigation = useNavigation();
-  const { userData } = route.params;
+  const [state] = React.useContext(AuthContext);
+  const { user } = state;
+
   const [barData, setBarData] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [selectedTimeRange, setSelectedTimeRange] = useState("7AM-12PM");
@@ -34,7 +46,7 @@ const Stats = ({ route }) => {
   const handleDetailsScreen = () => {
     // Navigate to Details
     navigation.navigate("Details", {
-      deviceId: userData.deviceId,
+      deviceId: user.deviceId,
     });
   };
 
@@ -46,7 +58,7 @@ const Stats = ({ route }) => {
 
         // Replace the URL below with your backend URL
         const response = await axios.get(
-          `/auth/filter-detections?deviceId=${userData.deviceId}`
+          `/auth/filter-detections?deviceId=${user?.deviceId}`
         );
         console.log("Fetched Data:", response.data.detections);
         setBarData(response.data.detections);
@@ -57,10 +69,10 @@ const Stats = ({ route }) => {
         setLoading(false);
       }
     };
-    if (userData?.deviceId) {
+    if (user?.deviceId) {
       fetchData();
     }
-  }, [userData.deviceId]);
+  }, [user?.deviceId]);
 
   const filterDataByTimeRange = (data, range) => {
     const filteredData = data.filter((detection) => {
@@ -129,7 +141,7 @@ const Stats = ({ route }) => {
 
       // Re-fetch the data from the backend
       const response = await axios.get(
-        `/auth/filter-detections?deviceId=${userData.deviceId}`
+        `/auth/filter-detections?deviceId=${user?.deviceId}`
       );
       console.log("Refreshed Data:", response.data.detections);
       const newBarData = response.data.detections;
@@ -215,7 +227,6 @@ const Stats = ({ route }) => {
 
       <View style={styles.chartContainer}>
         {renderTitle()}
-        {console.log(groupedBarData)}
         <BarChart
           data={groupedBarData}
           barWidth={15}
@@ -235,7 +246,7 @@ const Stats = ({ route }) => {
       </View>
       <Text style={styles.selectTimeLabel}>Select a time range:</Text>
       <View style={styles.selectTimeContainer}>
-      <Picker
+        <Picker
           selectedValue={selectedTimeRange}
           onValueChange={(value) => setSelectedTimeRange(value)}
           style={{
@@ -250,9 +261,9 @@ const Stats = ({ route }) => {
               label={range.label}
               value={range.value}
               style={{
-                fontSize: 12, 
+                fontSize: 12,
                 fontFamily: "Poppins-Regular",
-                color: "#000", 
+                color: "#000",
               }}
             />
           ))}
@@ -261,30 +272,29 @@ const Stats = ({ route }) => {
 
       <Text style={styles.selectDateLabel}>Select date:</Text>
       <View style={styles.selectDateContainer}>
-      <Picker
-        selectedValue={selectedDateRange}
-        onValueChange={(value) => setSelectedDateRange(value)}
-        style={{
-          height: 47,
-          width: 170,
-          backgroundColor: "#F9E2D0",
-        }}
-      >
-        {dateRanges.map((range) => (
-          <Picker.Item
-            key={range.value}
-            label={range.label}
-            value={range.value}
-            style={{
-                fontSize: 12, 
+        <Picker
+          selectedValue={selectedDateRange}
+          onValueChange={(value) => setSelectedDateRange(value)}
+          style={{
+            height: 47,
+            width: 170,
+            backgroundColor: "#F9E2D0",
+          }}
+        >
+          {dateRanges.map((range) => (
+            <Picker.Item
+              key={range.value}
+              label={range.label}
+              value={range.value}
+              style={{
+                fontSize: 12,
                 fontFamily: "Poppins-Regular",
-                color: "#000", 
-            }}
-          />
-        ))}
-      </Picker>
-    </View>
-
+                color: "#000",
+              }}
+            />
+          ))}
+        </Picker>
+      </View>
 
       <Pressable
         style={({ pressed }) => [
@@ -447,10 +457,10 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   selectTimeLabel: {
-    fontSize: 12, 
-    fontFamily: "Poppins-SemiBold", 
-    color: "white", 
-    bottom: 230, 
+    fontSize: 12,
+    fontFamily: "Poppins-SemiBold",
+    color: "white",
+    bottom: 230,
     textAlign: "left",
     marginHorizontal: 20,
     textShadowColor: "rgba(0, 0, 0, 0.75)",
@@ -465,10 +475,10 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   selectDateLabel: {
-    fontSize: 12, 
-    fontFamily: "Poppins-SemiBold", 
-    color: "white", 
-    bottom: 240, 
+    fontSize: 12,
+    fontFamily: "Poppins-SemiBold",
+    color: "white",
+    bottom: 240,
     textAlign: "left",
     marginHorizontal: 70,
     textShadowColor: "rgba(0, 0, 0, 0.75)",
@@ -479,7 +489,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F9E2D0",
     alignSelf: "flex-end",
     bottom: 275,
-    marginHorizontal: 25, 
+    marginHorizontal: 25,
     elevation: 3,
   },
   chartContainer: {

@@ -12,7 +12,6 @@ import AboutUsScreenTeam from "./screens/AboutUs/AboutUsScreenTeam";
 import AboutUsScreenClient from "./screens/AboutUs/AboutUsScreenClient";
 import AboutUsScreenExpert from "./screens/AboutUs/AboutUsScreenExpert";
 import AboutUsScreenDevice from "./screens/AboutUs/AboutUsScreenDevice";
-import LeftPanel from "./screens/LeftPanel";
 import SettingsDropDown from "./screens/SettingsDropDown";
 import PrivacyPolicy from "./screens/PrivacyPolicy";
 import TermsOfService from "./screens/TermsOfService";
@@ -21,10 +20,8 @@ import UserInfo from "./screens/UserInfo";
 import Stats from "./screens/Stats";
 import Details from "./screens/Details";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, Text, Pressable, TouchableOpacity } from "react-native";
 import { AuthProvider } from "./context/authContext";
 import Icon from "react-native-vector-icons/Ionicons";
-import { Border } from "./GlobalStyles";
 
 import DeviceStatus from "./screens/connectToRpi/DeviceStatus";
 import AddDevice from "./screens/connectToRpi/AddDevice";
@@ -87,15 +84,6 @@ const DrawerNavigator = () => {
         options={{
           drawerIcon: ({ color }) => (
             <Icon name="cog-outline" size={25} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Logout"
-        component={LeftPanel}
-        options={{
-          drawerIcon: ({ color }) => (
-            <Icon name="enter" size={25} color={color} />
           ),
         }}
       />
