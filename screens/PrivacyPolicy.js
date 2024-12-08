@@ -1,149 +1,123 @@
 import * as React from "react";
-import { Image } from "expo-image";
+import { Image } from "expo-image"; // Make sure you have expo-image installed
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontSize, FontFamily } from "../GlobalStyles";
 
+// Import your image
+import iconImage from '../assets/Icon2.png'; // Adjust the path as necessary
+
 const PrivacyPolicy = () => {
   const navigation = useNavigation();
   return (
-    <View style={styles.privacyPolicy}>
-      <Image
-        style={styles.privacyPolicyChild}
-        contentFit="cover"
-        source={require("../assets/ellipse-2.png")}
-      />
-      <Image
-        style={styles.outputOnlinepngtools21}
-        contentFit="cover"
-        source={require("../assets/outputonlinepngtools-2-1.png")}
-      />
-      <Text style={styles.privacyPolicy1}>PRIVACY POLICY</Text>
-      <Text style={[styles.informationWeCollect, styles.howWeUseTypo]}>
-        Information we collect
-      </Text>
-      <Text style={[styles.howWeUse, styles.howWeUseTypo]}>
-        How we use information
-      </Text>
-      <Text style={styles.weAreCommitted}>
-        We are committed to protecting the privacy and personal information of
-        users who engage with our mobile application and use our device designed
-        to detect rice ear bugs. This privacy policy outlines our practices
-        regarding the collection, use, and protection of personal information in
-        compliance with relevant privacy laws and regulations.
-      </Text>
-      <Text
-        style={[styles.personalInformationThis, styles.theUseOfTypo]}
-      >{`Personal Information: This may include names, email, and other identifiers necessary for providing our services.
-
-Data: Images captured by the device and detection results.`}</Text>
-      <Text
-        style={[styles.theUseOf, styles.theUseOfTypo]}
-      >{`The use of data collection is for the following purposes:
-
-To protect the user’s data history upon logging in/out.
-
-To provide a statistics and report about the rice ear bugs detected.`}</Text>
+    <View style={styles.Background}>
+      <View style={styles.Container1}>
+        {/* Add the Image component here */}
+        <Image
+          source={iconImage}
+          style={styles.image}
+          contentFit="contain" // Adjust the resize mode as needed
+        />
+        <Text style={styles.Header1}>
+          PRIVACY POLICY
+        </Text>
+        <Text style={styles.HeaderDescription1}>
+          We are committed to protecting the privacy and personal information of
+          users who engage with our mobile application and use our device designed
+          to detect rice ear bugs. This privacy policy outlines our practices
+          regarding the collection, use, and protection of personal information in
+          compliance with relevant privacy laws and regulations.
+        </Text>
+      </View>
+      
+      <View style={styles.Container2}>
+        <Text style={styles.Header2}>
+          Information we collect
+        </Text>
+        <Text style={styles.HeaderDescription2}>
+          Personal Information: This may include names, email, and other identifiers necessary for providing our services.{"\n"}{"\n"}
+          Data: Images captured by the device and detection results.
+        </Text>
+      </View>
+      
+      <View style={styles.Container3}>
+        <Text style={styles.Header3}>
+          How we use information
+        </Text>
+        <Text style={styles.HeaderDescription3}>
+          The use of data collection is for the following purposes:{"\n"}{"\n"}
+          To protect the user’s data history upon logging in/out.{"\n"}{"\n"}
+          To provide a statistics and report about the rice ear bugs detected.
+        </Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  howWeUseTypo: {
-    color: "#F6D4BA",
-    fontSize: 18,
-    height: "3.28%",
-    width: "73.54%",
-    left: 8,
-    fontFamily: 'Poppins-SemiBold',
-    fontWeight: "600",
-    position: "absolute",
-  },
-  theUseOfTypo: {
-    width: 341,
-    height: 119,
-    textAlign: "left",
-    lineHeight: 15,
-    fontSize: FontSize.size_xs,
-    color: Color.colorMediumseagreen,
-    fontFamily: 'Poppins-SemiBold',
-    fontWeight: "600",
-    position: "absolute",
-  },
-  privacyPolicyChild: {
-    top: 55,
-    left: 160,
-    width: 125,
-    height: 132,
-    position: "absolute",
-  },
-  outputOnlinepngtools21: {
-    top: 71,
-    left: 163,
-    width: 113,
-    height: 105,
-    position: "absolute",
-  },
-  privacyPolicy1: {
-    width: 245,
-    height: 185,
-    top: "25.75%",
-    left: "27.22%",
-    fontSize: 20,
-    color: "white",
-    textShadowColor: "rgba(0, 0, 0, 0.25)",
-    textShadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    textShadowRadius: 4,
-    textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
-    fontWeight: "600",
-    width: "45.56%",
-    position: "absolute",
-  },
-  informationWeCollect: {
-    top: "51.09%",
-    left: "2.22%",
-    width: "45.56%",
-    fontSize: 28,
-    height: "3.28%",
-  },
-  howWeUse: {
-    width: "47.5%",
-    top: "70.16%",
-    left: "3.06%",
-  },
-  weAreCommitted: {
-    width: "94.44%",
-    height: "auto",
-    top: "31.41%",
-    left: "3.33%",
-    fontSize: 15,
-    lineHeight: 16,
-    color: Color.colorMediumseagreen,
-    textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
-    fontWeight: "600",
-    position: "absolute",
-  },
-  personalInformationThis: {
-    top: "55.38%",
-    left: 11,
-    height: 105,
-    fontSize: 17,
-  },
-  theUseOf: {
-    top: "74.84%",
-    left: 12,
-  },
-  privacyPolicy: {
+  Background: {
     backgroundColor: "#132A17",
     flex: 1,
     width: "100%",
-    height: 640,
+    height: "100%", // Use flex to fill the screen
     overflow: "hidden",
+  },
+  image: {
+    width: "50%", // Adjust width as needed
+    height: "50%", // Adjust height as needed
+  },
+  Container1: {
+    width: "100%",
+    height: "40%",
+    backgroundColor: "",
+    alignItems: "center", // Center the image horizontally
+    marginLeft: "0%",
+    padding: 20, // Add padding for better text layout
+  },
+  Header1: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  HeaderDescription1: {
+    color: "#69B578",
+    fontWeight: "bold",
+    textAlign: 'center', // Justify text
+    marginTop: 10, // Add some margin for spacing
+  },
+  Container2: {
+    width: "80%",
+    height: "20%",
+    backgroundColor: "",
+    alignItems: "", // Center the image horizontally
+    marginTop: "5%",
+    padding: 10, // Add padding for better text layout
+  },
+  Header2:{
+    color: "#F6D4BA",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  HeaderDescription2:{
+    color: "#69B578",
+    fontWeight: "bold",
+  },
+  Container3: {
+    width: "80%",
+    height: "22%",
+    backgroundColor: "",
+    alignItems: "", // Center the image horizontally
+    marginTop: "2%",
+    padding: 10, // Add padding for better text layout
+  },
+  Header3:{
+    color: "#F6D4BA",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  HeaderDescription3:{
+    color: "#69B578",
+    fontWeight: "bold",
   },
 });
 
