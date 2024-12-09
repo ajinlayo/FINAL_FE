@@ -39,14 +39,12 @@ const Details = ({ route }) => {
   });
 
   const downloadAndSaveImage = async () => {
-    const imageUrl =
-      "https://production-myentobackend.onrender.com/api/v1/images/673f5282bee9a9e3336aea72";
     const fileUri = FileSystem.cacheDirectory + "downloadedImage.jpg";
 
     try {
       // Download the image to a temporary file
       const { uri } = await FileSystem.downloadAsync(imageUrl, fileUri);
-
+      console.log("Downloaded image URI: ", uri);
       // Save the downloaded file to the gallery
       await saveImageToGallery(uri);
     } catch (error) {
@@ -91,6 +89,8 @@ const Details = ({ route }) => {
             return dateA - dateB;
           });
           setDetections(sortedData);
+          const imageUrl = `https://production-myentobackend.onrender.com/api/v1/images/${sortedData[0].image}`;
+          setImageUrl(imageUrl);
           setDetectionInfo({
             numberOfBugs: sortedData[0].numberOfBugs,
             bugsConfidenceScore: parseFloat(
@@ -136,6 +136,8 @@ const Details = ({ route }) => {
       const prevIndex = currentIndex - 1;
       setCurrentIndex(prevIndex);
       const prevDetection = detections[prevIndex];
+      const imageUrl = `https://production-myentobackend.onrender.com/api/v1/images/${prevDetection.image}`;
+      setImageUrl(imageUrl);
       setDetectionInfo({
         numberOfBugs: prevDetection.numberOfBugs,
         bugsConfidenceScore: parseFloat(
@@ -161,6 +163,8 @@ const Details = ({ route }) => {
       const nextIndex = currentIndex + 1;
       setCurrentIndex(nextIndex);
       const nextDetection = detections[nextIndex];
+      const imageUrl = `https://production-myentobackend.onrender.com/api/v1/images/${nextDetection.image}`;
+      setImageUrl(imageUrl);
       setDetectionInfo({
         numberOfBugs: nextDetection.numberOfBugs,
         bugsConfidenceScore: parseFloat(
@@ -174,14 +178,19 @@ const Details = ({ route }) => {
         time: nextDetection.time,
       });
     } else {
-      Alert.alert("No Next Results", "You are already at the last detection.");
+      Alert.alert(
+        "No Next Results",
+        "You are already at the latest detection."
+      );
     }
   };
 
   const showLatestDetection = () => {
     if (detections.length > 0) {
       const latestDetection = detections[detections.length - 1];
-      console.log(detections);
+      console.log("dadasdss", detections);
+      const imageUrl = `https://production-myentobackend.onrender.com/api/v1/images/${latestDetection.image}`;
+      setImageUrl(imageUrl);
       setDetectionInfo({
         numberOfBugs: latestDetection.numberOfBugs,
         bugsConfidenceScore: parseFloat(
@@ -220,11 +229,12 @@ const Details = ({ route }) => {
         <View style={styles.container}>
           <Image
             source={
-              require("../assets/No Image Available.jpg")
-              /*uri: "https://production-myentobackend.onrender.com/api/v1/images/673f5282bee9a9e3336aea72",
-            }*/
+              imageUrl
+                ? { uri: imageUrl }
+                : require("../assets/No Image Available.jpg")
             }
             style={styles.image}
+            priority="high"
           />
 
           <View style={styles.dateTimeSection}>
@@ -295,7 +305,7 @@ const Details = ({ route }) => {
             </Pressable>
 
             <Pressable onPress={toggleModal} style={styles.button}>
-              <Text style={styles.buttonText}>Suggested Actions</Text>
+              <Text style={styles.buttonText}>Pest Control Decision</Text>
             </Pressable>
           </View>
 
@@ -303,21 +313,35 @@ const Details = ({ route }) => {
             animationType="slide"
             transparent={true}
             visible={isModalVisible}
-            onRequestClose={isModalVisible}
+            onRequestClose={() => setIsModalVisible(false)}
           >
             <View style={styles.modalContainer}>
               <View style={styles.modalContent}>
-                <Text style={styles.modalText}>
-                  Suggested actions for farmers:
+                <Text
+                  style={[
+                    styles.modalText,
+                    { fontWeight: "bold", alignSelf: "center" },
+                  ]}
+                >
+                  Measures Done:
                 </Text>
-                <Text style={styles.modalText}>
-                  For {detectionInfo.numberOfBugs} bugs detected, you should use
-                  pest control measures.
-                </Text>
-                <Text style={styles.modalText}>
-                  For {detectionInfo.numberOfPanicles} panicles, ensure proper
-                  irrigation and growth conditions.
-                </Text>
+
+                {detectionInfo.numberOfPanicles > 0 &&
+                detectionInfo.numberOfBugs > 0 ? (
+                  <Text style={styles.modalText}>
+                    Pest control measures were processed at this time for{" "}
+                    {detectionInfo.numberOfBugs} bug/s and{" "}
+                    {detectionInfo.numberOfPanicles} panicle/s detected.
+                  </Text>
+                ) : (
+                  <View>
+                    <Text style={styles.modalText}>
+                      Few or no panicles or bugs were detected. Not recommended
+                      to activate the pest control measures yet.
+                    </Text>
+                  </View>
+                )}
+
                 <Pressable
                   onPress={() => setIsModalVisible(false)}
                   style={styles.closeButton}
@@ -358,7 +382,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: "55%",
     transform: [{ translateX: -50 }], // Center title horizontally
-    top: 40,
+    top: 55,
   },
   contentContainer: {
     flex: 1,
@@ -469,7 +493,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 18,
-    marginBottom: 5,
+    marginBottom: 8,
   },
   closeButton: {
     backgroundColor: "#f44336",

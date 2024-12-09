@@ -25,23 +25,21 @@ const Stats = () => {
 
   const [barData, setBarData] = useState([]);
   const [chartData, setChartData] = useState([]);
-  const [selectedTimeRange, setSelectedTimeRange] = useState("7AM-12PM");
-  const [selectedDateRange, setSelectedDateRange] = useState("lastWeek");
+  const [selectedTimeRange, setSelectedTimeRange] = useState("FullDay");
+  const [selectedDate, setSelectedDate] = useState("Dat");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const screenWidth = Dimensions.get("window").width;
 
   const timeRanges = [
+    { label: "Full day (7 AM - 5 PM)", value: "FullDay" },
     { label: "7 AM - 12 PM", value: "7AM-12PM" },
     { label: "1 PM - 5 PM", value: "1PM-5PM" },
-    { label: "Full day (7 AM - 5 PM)", value: "7AM-5PM" },
   ];
 
-  const dateRanges = [
-    { label: "Today", value: "today" },
-    { label: "Last 7 Days", value: "lastWeek" },
-    { label: "Last 30 Days", value: "lastMonth" },
-  ];
+  const getUniqueDates = (data) => {
+    const dates = new Set(data.map((detection) => detection.date));
+    return Array.from(dates).sort();
+  };
 
   const handleDetailsScreen = () => {
     // Navigate to Details
@@ -84,6 +82,10 @@ const Stats = () => {
     return filteredData;
   };
 
+  const filterDataByDate = (data, selectedDate) => {
+    return data.filter((detection) => detection.date === selectedDate);
+  };
+
   const processChartData = (barData) => {
     const sortedData = [...barData].sort((a, b) => {
       const dateTimeA = new Date(`${a.date}T${a.time}`);
@@ -111,11 +113,15 @@ const Stats = () => {
 
   useEffect(() => {
     if (barData.length > 0) {
-      const filteredData = filterDataByTimeRange(barData, selectedTimeRange);
-      const processedData = processChartData(filteredData);
+      const filteredData = filterDataByDate(barData, selectedDate);
+      const timeFilteredData = filterDataByTimeRange(
+        filteredData,
+        selectedTimeRange
+      );
+      const processedData = processChartData(timeFilteredData);
       setChartData(processedData);
     }
-  }, [barData, selectedTimeRange]);
+  }, [barData, selectedTimeRange, selectedDate]);
 
   const groupedBarData = chartData.flatMap((data) => {
     return [
@@ -146,7 +152,7 @@ const Stats = () => {
       console.log("Refreshed Data:", response.data.detections);
       const newBarData = response.data.detections;
 
-      setSelectedTimeRange("7 AM - 12 PM");
+      setSelectedTimeRange("Full day (7 AM - 5 PM)");
       setBarData(newBarData);
 
       // Process and update the chart data based on the selected time range
@@ -273,19 +279,19 @@ const Stats = () => {
       <Text style={styles.selectDateLabel}>Select date:</Text>
       <View style={styles.selectDateContainer}>
         <Picker
-          selectedValue={selectedDateRange}
-          onValueChange={(value) => setSelectedDateRange(value)}
+          selectedValue={selectedDate}
+          onValueChange={(value) => setSelectedDate(value)}
           style={{
             height: 47,
             width: 170,
             backgroundColor: "#F9E2D0",
           }}
         >
-          {dateRanges.map((range) => (
+          {getUniqueDates(barData).map((date) => (
             <Picker.Item
-              key={range.value}
-              label={range.label}
-              value={range.value}
+              key={date}
+              label={date}
+              value={date}
               style={{
                 fontSize: 12,
                 fontFamily: "Poppins-Regular",
@@ -452,17 +458,17 @@ const styles = StyleSheet.create({
     elevation: 3,
     width: 145,
     height: 40,
-    top: 125,
+    top: 135,
     alignSelf: "flex-start",
     marginLeft: 50,
   },
   selectTimeLabel: {
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: "Poppins-SemiBold",
     color: "white",
-    bottom: 230,
+    bottom: 225,
     textAlign: "left",
-    marginHorizontal: 20,
+    marginHorizontal: 40,
     textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1,
@@ -471,11 +477,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#F9E2D0",
     alignSelf: "flex-end",
     bottom: 260,
-    marginHorizontal: 25,
+    marginHorizontal: 50,
     elevation: 3,
   },
   selectDateLabel: {
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: "Poppins-SemiBold",
     color: "white",
     bottom: 240,
@@ -489,14 +495,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#F9E2D0",
     alignSelf: "flex-end",
     bottom: 275,
-    marginHorizontal: 25,
+    marginHorizontal: 50,
     elevation: 3,
   },
   chartContainer: {
     backgroundColor: "#3A7D44",
     paddingBottom: 40,
     borderRadius: 20,
-    top: 250,
+    top: 260,
     width: 350,
     elevation: 3,
     alignSelf: "center",
@@ -540,7 +546,7 @@ const styles = StyleSheet.create({
     width: 145,
     height: 40,
     alignSelf: "flex-end",
-    marginVertical: 85,
+    marginVertical: 95,
     marginRight: 50,
   },
   refreshText: {
