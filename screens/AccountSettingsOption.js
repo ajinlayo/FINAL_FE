@@ -129,8 +129,8 @@ const styles = StyleSheet.create({
   BackButton: {
     height: "15.47%",
     width: "25.53%",
-    marginTop: "25",
-    marginLeft: "20",
+    marginTop: 25,
+    marginLeft: 20,
     position: "absolute",
     overflow: "hidden",
   },
@@ -141,12 +141,12 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     alignItems: "center",
     marginHorizontal: "5.4%",
-    marginTop: "70",
+    marginTop: 70,
     flexDirection: "column",
     elevation: 10,
   },
   Icon: {
-    marginTop: "10",
+    marginTop: 10,
   },
   AccountSettingsTitle: {
     fontSize: 18,
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   IconChild: {
-    marginLeft: "20",
+    marginLeft: 20,
     alignSelf: "center",
   },
   ChildText: {
@@ -188,8 +188,8 @@ const styles = StyleSheet.create({
     width: "50%",
     borderRadius: 15,
     backgroundColor: "#132A17",
-    marginRight: "10",
-    marginLeft: "0",
+    marginRight: 10,
+    marginLeft: 0,
     elevation: 5,
   },
   EditButton2: {
@@ -197,13 +197,13 @@ const styles = StyleSheet.create({
     width: "50%",
     borderRadius: 15,
     backgroundColor: "#FF0000",
-    marginRight: "10",
-    marginLeft: "0",
+    marginRight: 10,
+    marginLeft: 0,
     elevation: 5,
   },
   EditButtonText: {
     textAlign: "center",
-    marginTop: "14",
+    marginTop: 14,
     color: "white",
     fontWeight: "bold",
   },
